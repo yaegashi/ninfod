@@ -104,6 +104,10 @@
 # define offsetof(aggregate,member)	((size_t)&((aggregate *)0)->member)
 #endif
 
+#ifndef IPV6_RECVPKTINFO
+# define IPV6_RECVPKTINFO IPV6_PKTINFO
+#endif
+
 /* --------- */
 /* ID */
 static char *RCSID __attribute__ ((unused)) = "$USAGI: ninfod.c,v 1.34 2003-01-15 06:41:23 mk Exp $";
@@ -177,10 +181,17 @@ static int __inline__ init_sock(int sock)
 	}
 
 	i = 1;
-	if (setsockopt(sock,
-		       IPPROTO_IPV6, IPV6_PKTINFO,
-		       &i, sizeof(i)) < 0) {
-		DEBUG(LOG_ERR, "setsockopt(IPV6_PKTINFO): %s\n",
+	if (
+	    setsockopt(sock,
+		       IPPROTO_IPV6, IPV6_RECVPKTINFO,
+		       &i, sizeof(i)) < 0
+#ifdef IPV6_2292PKTINFO
+	    && setsockopt(sock,
+			  IPPROTO_IPV6, IPV6_2292PKTINFO,
+			  &i, sizeof(i)) < 0
+#endif
+	) {
+		DEBUG(LOG_ERR, "setsockopt(IPV6_RECVPKTINFO): %s\n",
 		      strerror(errno));
 		return -1;
 	}
@@ -222,8 +233,13 @@ int ni_recv(struct packetcontext *p)
 
 	for (cmsg = CMSG_FIRSTHDR(&msgh); cmsg;
 	     cmsg = CMSG_NXTHDR(&msgh, cmsg)) {
-		if (cmsg->cmsg_level == IPPROTO_IPV6 &&
-		    cmsg->cmsg_type == IPV6_PKTINFO) {
+		if (cmsg->cmsg_level != IPPROTO_IPV6)
+			continue;
+		if (cmsg->cmsg_type == IPV6_PKTINFO
+#ifdef IPV6_2292PKTINFO
+		    || cmsg->cmsg_type == IPV6_2292PKTINFO
+#endif
+		) {
 			memcpy(&p->pktinfo, CMSG_DATA(cmsg), sizeof(p->pktinfo));
 			break;
 		}
