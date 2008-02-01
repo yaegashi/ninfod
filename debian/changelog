@@ -1,0 +1,5 @@
+ninfod (0.0.20080202) unstable; urgency=low
+
+  * Snapshot debian package.
+
+ -- YAEGASHI Takeshi <yaegashi@debian.org>  Sat,  2 Feb 2008 01:09:51 +1100

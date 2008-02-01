@@ -1,0 +1,12 @@
+Source: ninfod
+Section: net
+Priority: extra
+Maintainer: YAEGASHI Takeshi <yaegashi@debian.org>
+Build-Depends: debhelper (>= 5), autotools-dev, libssl-dev
+Standards-Version: 3.7.2
+
+Package: ninfod
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Daemon for IPv6 Node Information Queries (RFC4620)
+ Daemon for IPv6 Node Information Queries (RFC4620)
