@@ -14,21 +14,30 @@ ninfod_SOURCES = ni_ifaddrs.c ninfod.c ninfod_addrs.c ninfod_core.c ninfod_name.
 
 DEFS=@DEFS@
 
-LASTTAG=`git-describe HEAD | sed -e 's/-.*//'`
-VERSION=`date +s%Y%m%d`
+LASTTAG=`git-describe HEAD | sed -e 's/-s.*//'`
+RELEASE=`cat Release`
+DATE=`date +%Y%m%d`
+VERSION=$(RELEASE)-dirty
+DEBVER=$(RELEASE).dirty
 
-snapshot:
+mkpkg:
 	@date "+[$(VERSION)]" > ChangeLog.NEW
 	@echo >>ChangeLog.NEW
 	@git-log $(LASTTAG).. | git-shortlog >> ChangeLog.NEW
 	@echo >> ChangeLog.NEW
 	@cat ChangeLog >> ChangeLog.NEW
 	@mv ChangeLog.NEW ChangeLog 
-	@dch --newversion 0.0.${VERSION} "New upstream release."
+	@dch --newversion $(DEBVER) "New upstream release."
 	@git-commit -a -m "$(PACKAGE)-$(VERSION)"
 	@git-tag -s -m "$(BASENAME)-$(VERSION)" $(VERSION)
 	$(MAKE) dist
 #	@git-archive --format=tar --prefix=$(BASENAME)-$(TAG)/ $(TAG) | bzip2 -9 > ../$(BASENAME)-$(TAG).tar.bz2
+
+snapshot:
+	$(MAKE) mkpkg VERSION=s$(DATE) DEBVER=$(RELEASE).$(DATE)
+
+release:
+	$(MAKE) mkpkg VERSION=v$(RELEASE) DEBVER=$(RELEASE)
 
 #ninfod: ninfod_addrs.o ni_ifaddrs.o ninfod_name.o ninfod_core.o ninfod.o
 #        $(CC) $(LDFLAGS) $^ $(LIBS) -o $@
