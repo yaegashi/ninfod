@@ -1,5 +1,31 @@
-# $USAGI: Makefile.in,v 1.6 2003-01-15 06:41:23 mk Exp $
 #
+# Makefile.am
+#
+# To generage Makefile.in / config.h.in from Makefile.am, invoke
+#	aclocal
+#	autoheader
+#	automake --foreign --add-missing
+# To generate Makefile and configure.in, from Makefile, invoke
+#	autoconf
+#
+sbin_PROGRAMS = ninfod
+ninfod_SOURCES = ni_ifaddrs.c ninfod.c ninfod_addrs.c ninfod_core.c ninfod_name.c \
+	ninfod.h icmp6_nodeinfo.h ni_ifaddrs.h
+
+DEFS=@DEFS@
+VERSION=`date +s%Y%m%d`
+
+snapshot:
+	@git-commit -a -m "$(PACKAGE)-$(VERSION)"
+	@git-tag -s -m "$(BASENAME)-$(VERSION)" $(VERSION)
+	$(MAKE) dist
+#	@git-archive --format=tar --prefix=$(BASENAME)-$(TAG)/ $(TAG) | bzip2 -9 > ../$(BASENAME)-$(TAG).tar.bz2
+
+#ninfod: ninfod_addrs.o ni_ifaddrs.o ninfod_name.o ninfod_core.o ninfod.o
+#        $(CC) $(LDFLAGS) $^ $(LIBS) -o $@
+.c.o:
+	$(CC) $(CFLAGS) -c $(DEFS) -o $@ $^
+
 # Copyright (C)2002 USAGI/WIDE Project.
 # Copyright (C)2000-2001 Hideaki YOSHIFUJI and USAGI Project.
 # All rights reserved.
@@ -27,63 +53,4 @@
 # LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
-#
-
-.PHONY: all clean distclean install snapshot
-
-# $Id: Makefile.in,v 1.2 2000/06/10 05:45:14 yoshfuji Exp yoshfuji $
-
-SHELL = @SHELL@
-
-srcdir = @srcdir@
-prefix = @prefix@
-exec_prefix = @exec_prefix@
-
-bindir = @bindir@
-sbindir = @sbindir@
-libexecdir = @libexecdir@
-datadir = @datadir@
-sysconfdir = @sysconfdir@
-sharedstatedir = @sharedstatedir@
-localstatedir = @localstatedir@
-libdir = @libdir@
-infodir = @infodir@
-mandir = @mandir@
-includedir = @includedir@
-
-INSTALL = @INSTALL@
-
-CC = @CC@
-CFLAGS=@CFLAGS@
-DEFS=@DEFS@
-LIBS=@LIBS@
-LDFLAGS=@LDFLAGS@
-INSTALL = @INSTALL@
-
-# ----------------
-BASENAME = ninfod
-TAG := `date +s%Y%m%d`
-
-# ----------------
-all: ninfod
-clean:
-	-rm -f *.o ninfod ninfod.sh
-distclean: clean
-	-rm -f *~ *.bak #*
-	-rm -fr autom4te.cache
-	-rm -f Makefile config.h config.cache config.status config.log
-install: all
-	@INSTALL_DIR@ @sbindir@
-	@INSTALL@ ninfod -o root @sbindir@
-	@INSTALL@ ninfod.sh -o root -m 755 @sysconfdir@/init.d/ninfod
-
-snapshot:
-	@git-commit -a -m "$(BASENAME)-$(TAG)"
-	@git-tag -s -m "$(BASENAME)-$(TAG)" $(TAG)
-	@git-archive --format=tar --prefix=$(BASENAME)-$(TAG)/ $(TAG) | bzip2 -9 > ../$(BASENAME)-$(TAG).tar.bz2
-
-# ----------------
-ninfod: ninfod_addrs.o ni_ifaddrs.o ninfod_name.o ninfod_core.o ninfod.o
-	$(CC) $(LDFLAGS) $^ $(LIBS) -o $@
-.c.o:
-	$(CC) $(CFLAGS) -c $(DEFS) -o $@ $^
+############################################################################
