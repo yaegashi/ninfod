@@ -1,0 +1,10 @@
+[s20080202]
+
+YOSHIFUJI Hideaki (5):
+      Add make snapshot support.
+      Add all clean etc. into .PHONY make dependency rule.
+      Support both of RFC2292 and RFC3542 advanced socket API.
+      Use automake tool for build automation.
+      Generate ChangeLog automatically.
+
+
