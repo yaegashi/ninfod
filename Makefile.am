@@ -24,6 +24,7 @@ snapshot:
 	@echo >> ChangeLog.NEW
 	@cat ChangeLog >> ChangeLog.NEW
 	@mv ChangeLog.NEW ChangeLog 
+	@dch --newversion 0.0.${VERSION} "New upstream release."
 	@git-commit -a -m "$(PACKAGE)-$(VERSION)"
 	@git-tag -s -m "$(BASENAME)-$(VERSION)" $(VERSION)
 	$(MAKE) dist
