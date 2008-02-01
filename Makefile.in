@@ -59,6 +59,10 @@ LDFLAGS=@LDFLAGS@
 INSTALL = @INSTALL@
 
 # ----------------
+BASENAME = ninfod
+TAG := `date +s%Y%m%d`
+
+# ----------------
 all: ninfod
 clean:
 	-rm -f *.o ninfod ninfod.sh
@@ -70,6 +74,11 @@ install: all
 	@INSTALL_DIR@ @sbindir@
 	@INSTALL@ ninfod -o root @sbindir@
 	@INSTALL@ ninfod.sh -o root -m 755 @sysconfdir@/init.d/ninfod
+
+snapshot:
+	@git-commit -a -m "$(BASENAME)-$(TAG)"
+	@git-tag -s -m "$(BASENAME)-$(TAG)" $(TAG)
+	@git-archive --format=tar --prefix=$(BASENAME)-$(TAG)/ $(TAG) | bzip2 -9 > ../$(BASENAME)-$(TAG).tar.bz2
 
 # ----------------
 ninfod: ninfod_addrs.o ni_ifaddrs.o ninfod_name.o ninfod_core.o ninfod.o
