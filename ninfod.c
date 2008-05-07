@@ -118,6 +118,7 @@ int daemonized;
 
 char *appname;
 static int opt_d = 0;	/* debug */
+int opt_g = 0;		/* accept query from global */
 static int opt_h = 0;	/* help */
 static char *opt_p = NINFOD_PIDFILE;	/* pidfile */
 int opt_v = 0;		/* verbose */
@@ -389,7 +390,7 @@ static void parse_args(int argc, char **argv)
 	int c;
 
 	/* parse options */
-	while ((c = getopt(argc, argv, "dhvp:")) != -1) {
+	while ((c = getopt(argc, argv, "dhvp:g")) != -1) {
 		switch(c) {
 		case 'd':	/* debug */
 			opt_d = 1;
@@ -399,6 +400,9 @@ static void parse_args(int argc, char **argv)
 			break;
 		case 'p':
 			opt_p = optarg;
+			break;
+		case 'g':
+			opt_g = 1;
 			break;
 		case 'h':	/* help */
 		default:
@@ -419,14 +423,14 @@ static void parse_args(int argc, char **argv)
 static void print_copying(void) {
 	fprintf(stderr,
 		"Node Information Daemon\n"
-		"Copyright (C)2002 USAGI/WIDE Project.  All Rights Reserved.\n"
+		"Copyright (C)2002,2007 USAGI/WIDE Project.  All Rights Reserved.\n"
 		"\n"
 	);
 }
 
 static void print_usage(void) {
 	fprintf(stderr, 
-		"Usage: %s [-d [-p pidfile]] [-h] [-v]\n\n",
+		"Usage: %s [-d [-p pidfile]] [-g] [-h] [-v]\n\n",
 		appname
 	);
 }

@@ -112,6 +112,8 @@
 # define offsetof(aggregate,member)	((size_t)&((aggregate *)0)->member)
 #endif
 
+extern int opt_g;
+
 /* ---------- */
 /* ID */
 static char *RCSID __attribute__ ((unused)) = "$USAGI: ninfod_core.c,v 1.29 2003-07-16 09:49:01 yoshfuji Exp $";
@@ -565,12 +567,21 @@ int pr_nodeinfo(struct packetcontext *p)
 		return -1;
 	}
 
-	/* XXX: Step 5: Check the policy */
-	if (0) {
-		ni_free(p->replydata);
-		p->replydata = NULL;
-		replyonsubjcheck = 0;
-		qtypeinfo = &qtypeinfo_refused;
+	/* Step 5: Check the policy */
+	if (!opt_g) {
+		struct sockaddr_in6 *sin6 = (struct sockaddr_in6 *)&p->addr;
+
+#if 0
+		assert(sin6->sin6_family == AF_INET6);
+#endif
+
+		if (!IN6_IS_ADDR_LOOPBACK(&sin6->sin6_addr) &&
+		    !IN6_IS_ADDR_LINKLOCAL(&sin6->sin6_addr)) {
+			ni_free(p->replydata);
+			p->replydata = NULL;
+			replyonsubjcheck = 0;
+			qtypeinfo = &qtypeinfo_refused;
+		}
 	}
 
 	/* Step 6: Fill the reply if not yet done */
