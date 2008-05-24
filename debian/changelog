@@ -1,3 +1,9 @@
+ninfod (0.0.20080524) unstable; urgency=low
+
+  * New upstream release.
+
+ -- YOSHIFUJI Hideaki <yoshfuji@linux-ipv6.org>  Sat, 24 May 2008 19:05:45 +0900
+
 ninfod (0.0.20080202) unstable; urgency=low
 
   * Snapshot debian package.
