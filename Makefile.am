@@ -17,7 +17,7 @@ GIT=git
 
 DEFS=@DEFS@
 
-LASTTAG=`${GIT} describe HEAD | sed -e 's/-s.*//'`
+LASTTAG=`${GIT} describe HEAD | sed -e 's/-.*//'`
 RELEASE=`cat Release`
 DATE=`date +%Y%m%d`
 VERSION=$(RELEASE)-dirty
