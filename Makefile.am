@@ -12,9 +12,11 @@ sbin_PROGRAMS = ninfod
 ninfod_SOURCES = ni_ifaddrs.c ninfod.c ninfod_addrs.c ninfod_core.c ninfod_name.c \
 	ninfod.h icmp6_nodeinfo.h ni_ifaddrs.h
 
+GIT=git
+
 DEFS=@DEFS@
 
-LASTTAG=`git-describe HEAD | sed -e 's/-s.*//'`
+LASTTAG=`${GIT} describe HEAD | sed -e 's/-s.*//'`
 RELEASE=`cat Release`
 DATE=`date +%Y%m%d`
 VERSION=$(RELEASE)-dirty
@@ -23,15 +25,15 @@ DEBVER=$(RELEASE).dirty
 mkpkg:
 	@date "+[$(VERSION)]" > ChangeLog.NEW
 	@echo >>ChangeLog.NEW
-	@git-log $(LASTTAG).. | git-shortlog >> ChangeLog.NEW
+	@${GIT} log $(LASTTAG).. | ${GIT} shortlog >> ChangeLog.NEW
 	@echo >> ChangeLog.NEW
 	@cat ChangeLog >> ChangeLog.NEW
 	@mv ChangeLog.NEW ChangeLog 
 	@dch --newversion $(DEBVER) "New upstream release."
-	@git-commit -a -m "$(PACKAGE)-$(VERSION)"
-	@git-tag -s -m "$(BASENAME)-$(VERSION)" $(VERSION)
+	@${GIT} commit -a -m "$(PACKAGE)-$(VERSION)"
+	@${GIT} tag -s -m "$(BASENAME)-$(VERSION)" $(VERSION)
 	$(MAKE) dist
-#	@git-archive --format=tar --prefix=$(BASENAME)-$(TAG)/ $(TAG) | bzip2 -9 > ../$(BASENAME)-$(TAG).tar.bz2
+#	@${GIT} archive --format=tar --prefix=$(BASENAME)-$(TAG)/ $(TAG) | bzip2 -9 > ../$(BASENAME)-$(TAG).tar.bz2
 
 snapshot:
 	$(MAKE) mkpkg VERSION=s$(DATE) DEBVER=$(RELEASE).$(DATE)
