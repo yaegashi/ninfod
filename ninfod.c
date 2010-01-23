@@ -423,14 +423,14 @@ static void parse_args(int argc, char **argv)
 static void print_copying(void) {
 	fprintf(stderr,
 		"Node Information Daemon\n"
-		"Copyright (C)2002,2007 USAGI/WIDE Project.  All Rights Reserved.\n"
+		"Copyright (C)2002,2007,2010 USAGI/WIDE Project.  All Rights Reserved.\n"
 		"\n"
 	);
 }
 
 static void print_usage(void) {
 	fprintf(stderr, 
-		"Usage: %s [-d [-p pidfile]] [-g] [-h] [-v]\n\n",
+		"Usage: %s [-d | [-p pidfile]] [-g] [-h] [-v]\n\n",
 		appname
 	);
 }
