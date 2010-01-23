@@ -9,4 +9,5 @@ Package: ninfod
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Daemon for IPv6 Node Information Queries (RFC4620)
- Daemon for IPv6 Node Information Queries (RFC4620)
+ The ninfod daemon allows network nodes to discover information about
+ names and address of your node via ICMPv6 as described in RFC4620.
