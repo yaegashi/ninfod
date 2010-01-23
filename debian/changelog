@@ -1,3 +1,9 @@
+ninfod (0.0.20100123) unstable; urgency=low
+
+  * New upstream release.
+
+ -- YOSHIFUJI Hideaki <yoshfuji@linux-ipv6.org>  Sat, 23 Jan 2010 17:29:27 +0900
+
 ninfod (0.0.20080524) unstable; urgency=low
 
   * New upstream release.

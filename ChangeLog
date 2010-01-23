@@ -1,3 +1,15 @@
+[s20100123]
+
+YOSHIFUJI Hideaki (7):
+      Add AC_GNU_SOURCE.
+      Use git subcommand instead of git-subcommand.
+      -d option and -p option are exclusive.
+      Add ninfod(8) manpage.
+      Put more proper description in debian/control.
+      Add missing Changelog for s20080524.
+      Fix method to get last tag by git-describe.
+
+
 [s20080524]
 
 YAEGASHI Takeshi (1):
