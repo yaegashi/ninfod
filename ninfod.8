@@ -1,0 +1,33 @@
+.TH NINFOD 8 "23 January, 2010"
+
+.SH NAME
+ninfod \- IPv6 Node Information Query daemon.
+
+.SH SYNOPSIS
+Usage: ninfod [ -d | [ -p pid ] ] [ -g ] [ -v ] [ -h ]
+
+.SH DESCRIPTION
+The
+.B ninfod
+daemon allows network nodes to discover information about names and
+address of your node via ICMPv6 as described in RFC4620.
+
+.SH OPTIONS
+.TP
+-h
+Print help (this) message.
+.TP
+-v
+Be verbose.
+.TP
+-d
+Do not enter into daemon mode.
+.TP
+-p <pid>
+Store process ID in that file when in daemon mode.
+.TP
+-g
+Allow queries from global addresses.
+
+.SH SEE ALSO
+RFC 4620

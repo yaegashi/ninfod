@@ -11,6 +11,7 @@
 sbin_PROGRAMS = ninfod
 ninfod_SOURCES = ni_ifaddrs.c ninfod.c ninfod_addrs.c ninfod_core.c ninfod_name.c \
 	ninfod.h icmp6_nodeinfo.h ni_ifaddrs.h
+man8_MANS = ninfod.8
 
 GIT=git
 
