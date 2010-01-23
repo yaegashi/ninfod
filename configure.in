@@ -28,6 +28,7 @@ dnl SUCH DAMAGE.
 AC_PREREQ(2.61)
 AC_INIT(ninfod, snapshot, usagi-users@linux-ipv6.org)
 AM_INIT_AUTOMAKE
+AC_GNU_SOURCE
 AC_CONFIG_SRCDIR([ninfod.h])
 AC_CONFIG_HEADER([config.h])
 AC_PREFIX_DEFAULT(/usr/local/v6)
