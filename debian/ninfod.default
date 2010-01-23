@@ -1,0 +1,2 @@
+# Options to pass to ninfod.
+NINFOD_OPTIONS=""
