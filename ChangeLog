@@ -1,5 +1,13 @@
 [s20080524]
 
+YAEGASHI Takeshi (1):
+      Debian packaging scripts (only for snapshot releases).
+
+YOSHIFUJI Hideaki (3):
+      automatically update debian/changelog.
+      Add 'make release' target.
+      Do not accept queries from non-local source by default (without -g).
+
 
 [s20080202]
 
